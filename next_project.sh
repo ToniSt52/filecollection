@@ -117,3 +117,15 @@ cat << EOF > .gitignore
 build
 
 EOF
+
+cd ..
+
+echo "
+set(BUILD_${ProjectName} ON, CACHE BOOL "Enable building code of Lessons") 
+
+  if(BUILD_${ProjectName}) 
+      # add the Cpp projects 
+      add_subdirectory(./${ProjectName}) 
+  endif()"  >> CMakeLists.txt
+      
+     
