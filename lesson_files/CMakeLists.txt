@@ -9,11 +9,12 @@ if(BUILD_EXERCISES)
     add_subdirectory(./exercise_1)
 endif()
 
+
+
+
 set(BUILD_exercise_2 ON, CACHE BOOL Enable building code of Lessons) 
 
   if(BUILD_exercise_2) 
       # add the Cpp projects 
       add_subdirectory(./exercise_2) 
   endif()
-
-

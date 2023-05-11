@@ -29,13 +29,13 @@ enable_testing()
 # include the gtest CMake stuff
 include(GoogleTest)
 # create a test executable
-add_executable(tests test/exercise_2_test.cpp)
+add_executable(tests_exercise_2 test/exercise_2_test.cpp)
 # link the gtest libraries
-target_link_libraries(tests PRIVATE GTest::GTest GTest::Main)
+target_link_libraries(tests_exercise_2 PRIVATE GTest::GTest GTest::Main)
 # link the library we want to test
 target_link_libraries(tests PRIVATE exercise_2_lib)
 # add the include directories
-target_include_directories(tests PUBLIC include)
+target_include_directories(tests_exercise_2 PUBLIC include)
 # discover and add tests to the test list
-gtest_discover_tests(tests)
+gtest_discover_tests(tests_exercise_2)
 
