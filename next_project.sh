@@ -60,7 +60,7 @@ EOF
 mkdir include
 cd include
 
-cat << EOF > $ProjectName.hpp
+cat << EOF > $ProjectName.h
 #ifndef ${ProjectName^^}_HPP_${Random_String^^}
 #define ${ProjectName^^}_HPP_${Random_String^^}
 
