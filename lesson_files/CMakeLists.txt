@@ -15,3 +15,5 @@ set(BUILD_exercise_2 ON, CACHE BOOL Enable building code of Lessons)
       # add the Cpp projects 
       add_subdirectory(./exercise_2) 
   endif()
+
+
