@@ -49,7 +49,7 @@ add_executable(tests_${ProjectName} test/${ProjectName}_test.cpp)
 # link the gtest libraries
 target_link_libraries(tests_${ProjectName} PRIVATE GTest::GTest GTest::Main)
 # link the library we want to test
-target_link_libraries(tests PRIVATE ${ProjectName}_lib)
+target_link_libraries(tests_${ProjectName} PRIVATE ${ProjectName}_lib)
 # add the include directories
 target_include_directories(tests_${ProjectName} PUBLIC include)
 # discover and add tests to the test list
@@ -60,7 +60,7 @@ EOF
 mkdir include
 cd include
 
-cat << EOF > $ProjectName.h
+cat << EOF > $ProjectName.hpp
 #ifndef ${ProjectName^^}_HPP_${Random_String^^}
 #define ${ProjectName^^}_HPP_${Random_String^^}
 
@@ -69,6 +69,7 @@ void say_hi();
 #endif
 
 EOF
+
 cd ..
 
 mkdir src
@@ -77,7 +78,7 @@ cd src
 cat << EOF > main.cpp
 #include <iostream>
 #include <stdint.h>
-#include "$ProjectName.h"
+#include "$ProjectName.hpp"
 
 auto main() -> int
 {
@@ -91,7 +92,7 @@ EOF
 cat << EOF > $ProjectName.cpp
 #include <iostream>
 #include <stdint.h>
-#include "$ProjectName.h"
+#include "$ProjectName.hpp"
 
 void say_hi()
 {
@@ -99,6 +100,7 @@ void say_hi()
 }
 
 EOF
+
 cd .. 
 
 mkdir test
@@ -106,9 +108,10 @@ cd test
 
 cat << EOF > ${ProjectName}_test.cpp
 #include "gtest/gtest.h"  // include the gtest functions & macros
-#include "$ProjectName.h"
+#include "$ProjectName.hpp"
 
 EOF
+
 cd ..
 
 cat << EOF > .gitignore
