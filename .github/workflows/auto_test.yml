@@ -1,58 +1,57 @@
-name: C/C++ Test with GTest
-
+name: Built and Test
 on:
-  # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    branches:
+      - main
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
-    
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        compiler: [g++-10, clang++-11, gcc-10, clang-11]
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      
+
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential cmake libgtest-dev
-        cd /usr/src/gtest
-        sudo cmake CMakeLists.txt
-        sudo make
-        sudo cp *.a /usr/lib
-        cd -
-      
-    - name: Build and test
+        sudo apt-get install -y libgtest-dev cmake
+
+    - name: Build subprojects
       run: |
-        for dir in */ ; do
-          if [ -d "$dir" ]; then
-            cd "$dir"
-            if [ -f "Makefile" ]; then
-              make
-              make test
-            elif [ -f "CMakeLists.txt" ]; then
-              mkdir build && cd build
-              cmake ..
-              make
-              make test
-            elif ls *test.cpp &> /dev/null; then
-              g++ -std=c++17 -Wall -Wextra -Werror -Wno-unused -o "${dir%/}_test.out" -I /usr/include -pthread *.cpp /usr/lib/libgtest.a
-              "./${dir%/}_test.out"
-            elif ls *.cpp &> /dev/null; then
-              g++ -std=c++17 -Wall -Wextra -Werror -Wno-unused -o "${dir%/}.out" *.cpp
-              "./${dir%/}.out"
-            elif ls *.c &> /dev/null; then
-              gcc -std=c11 -Wall -Wextra -Werror -Wno-unused -o "${dir%/}.out" *.c
-              "./${dir%/}.out"
-            fi
-            cd ..
-          fi
+        for subproject in $(ls -d */); do
+          cd $subproject
+          mkdir -p build
+          cd build
+          cmake ..
+          make
+          cd ../../
+        done
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libgtest-dev cmake
+    
+    - name: Build and run tests
+      run: |
+        for subproject in $(ls -d */); do
+          cd $subproject
+          mkdir build
+          cd build
+          cmake ..
+          make
+          ctest 
+          cd ../..
         done
