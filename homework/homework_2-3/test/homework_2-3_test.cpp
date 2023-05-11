@@ -4,7 +4,7 @@
 TEST(animalTest, return_nof_mammal)
 {
     mammal groundhog(4);
-    EXPECT_EQ(4, groundhog.return_nof());
+    EXPECT_EQ(6, groundhog.return_nof());
 }
 
 TEST(animalTest, return_nof_spider)
