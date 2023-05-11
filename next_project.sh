@@ -28,16 +28,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 add_compile_options(-Wall -Wextra -Werror -pedantic -O0)
 
 # add a library for your student structure
-add_library(${ProjectName}_exec src/$ProjectName.cpp)
+add_library(${ProjectName}_lib src/$ProjectName.cpp)
 # add the includes to the library
-target_include_directories(${ProjectName}_exec PUBLIC include)
+target_include_directories(${ProjectName}_lib PUBLIC include)
 
 # add an executabel and assign files to it
-add_executable(main_exec src/main.cpp)
+add_executable(${ProjectName}_exec src/main.cpp)
 
-target_include_directories(main_exec PRIVATE include)
+target_include_directories(${ProjectName}_exec PRIVATE include)
 # link your libraries
-target_link_libraries(main_exec PRIVATE ${ProjectName}_exec)
+target_link_libraries(${ProjectName}_exec PRIVATE ${ProjectName}_lib)
 
 # check if we have gtest
 find_package(GTest)
@@ -45,15 +45,15 @@ enable_testing()
 # include the gtest CMake stuff
 include(GoogleTest)
 # create a test executable
-add_executable(tests test/${ProjectName}_test.cpp)
+add_executable(tests_${ProjectName} test/${ProjectName}_test.cpp)
 # link the gtest libraries
-target_link_libraries(tests PRIVATE GTest::GTest GTest::Main)
+target_link_libraries(tests_${ProjectName} PRIVATE GTest::GTest GTest::Main)
 # link the library we want to test
-target_link_libraries(tests PRIVATE ${ProjectName}_exec)
+target_link_libraries(tests PRIVATE ${ProjectName}_lib)
 # add the include directories
-target_include_directories(tests PUBLIC include)
+target_include_directories(tests_${ProjectName} PUBLIC include)
 # discover and add tests to the test list
-gtest_discover_tests(tests)
+gtest_discover_tests(tests_${ProjectName})
 
 EOF
 
