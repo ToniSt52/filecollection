@@ -48,10 +48,7 @@ jobs:
       run: |
         for subproject in $(ls -d */); do
           cd $subproject
-          mkdir build
           cd build
-          cmake ..
-          make
           ctest 
           cd ../..
         done
