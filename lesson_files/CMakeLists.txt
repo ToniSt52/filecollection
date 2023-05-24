@@ -46,3 +46,10 @@ set(BUILD_exercise_6 ON, CACHE BOOL Enable building code of Lessons)
       # add the Cpp projects 
       add_subdirectory(./exercise_6) 
   endif()
+
+set(BUILD_exercise_7 ON, CACHE BOOL Enable building code of Lessons) 
+
+  if(BUILD_exercise_7) 
+      # add the Cpp projects 
+      add_subdirectory(./exercise_7) 
+  endif()
