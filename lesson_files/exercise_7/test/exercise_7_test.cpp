@@ -1,8 +1,15 @@
 #include "gtest/gtest.h"  // include the gtest functions & macros
 #include "exercise_7.hpp"
 
-/*TEST(catTest, make_noise)
+/*class AnimalTestFixture : public ::testing ::Test
+{
+   protected:
+    cat bodo;
+    bird henri;
+}; 
+
+TEST(catTest, make_noise)
 {
     cat bodo;
-    EXPECT_EQ(meow, cat.make_noise());
+    ASSERT_TRUE( std::string("meow") == bodo.make_noise());
 } */
