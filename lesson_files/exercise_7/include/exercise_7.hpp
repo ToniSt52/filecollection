@@ -23,7 +23,7 @@ class cat : public animal
     {
         std::cout << "cat + bird" << std::endl;
     }
-    void make_noise() const
+    void make_noise() const override
     {
         std::cout << "meow" << std::endl;
     }
